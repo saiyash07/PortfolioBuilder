@@ -1,0 +1,21 @@
+Junior Data Scientist / Machine Learning Engineer
+
+Join our analytics team to turn customer data into predictive insights.
+
+What you will do
+- Clean, explore and analyse large datasets using Python, pandas and NumPy
+- Build, evaluate and compare Machine Learning models with scikit-learn
+- Communicate results through clear Data Visualization to business stakeholders
+- Contribute to research and share findings
+
+Requirements
+- Degree in Computer Science, Statistics or related field
+- Proficiency in Python, pandas, NumPy and SQL
+- Hands-on Machine Learning experience (scikit-learn)
+- Data Visualization skills (Tableau or matplotlib)
+- Communication and Problem Solving
+
+Nice to have
+- TensorFlow or PyTorch
+- Spark
+- Publications or research experience

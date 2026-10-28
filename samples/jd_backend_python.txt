@@ -1,0 +1,21 @@
+Backend Software Engineer (Python) - Fresher / Junior
+
+We are looking for a Backend Engineer to build and maintain REST APIs that power our logistics platform.
+
+Responsibilities
+- Design, build and document REST APIs using Python and Flask
+- Model data and write efficient SQL queries on PostgreSQL
+- Write unit tests and participate in code reviews
+- Package and deploy services with Docker
+
+Requirements
+- Bachelor's degree in Computer Science or related field
+- Solid Python and Flask experience
+- Strong SQL and PostgreSQL knowledge
+- Experience designing REST API endpoints
+- Git and Docker basics
+- Good communication and teamwork
+
+Nice to have
+- Kubernetes or AWS exposure
+- Redis caching

@@ -1,0 +1,68 @@
+{
+  "profile": {
+    "full_name": "Aarav Mehta",
+    "headline": "Computer Science Graduate | Backend & Machine Learning",
+    "email": "aarav.mehta@example.com", "phone": "+91 98765 43210", "location": "Pune, India",
+    "linkedin": "linkedin.com/in/aarav-mehta-demo", "github": "github.com/aarav-demo", "website": "",
+    "summary": "Computer science graduate with hands-on experience building REST services and machine learning prototypes. Comfortable working across the stack and shipping small, tested features."
+  },
+  "education": [
+    {"institution": "Savitribai Phule Pune University", "degree": "B.E.", "field": "Computer Engineering", "start_year": "2020", "end_year": "2024", "grade": "CGPA 8.7/10", "details": "Relevant coursework: Data Structures, Database Systems, Machine Learning, Operating Systems"}
+  ],
+  "skills": [
+    {"name": "Python", "category": "Technical", "proficiency": "Advanced"},
+    {"name": "Flask", "category": "Technical", "proficiency": "Advanced"},
+    {"name": "SQL", "category": "Technical", "proficiency": "Advanced"},
+    {"name": "SQLite", "category": "Technical", "proficiency": "Advanced"},
+    {"name": "PostgreSQL", "category": "Technical", "proficiency": "Intermediate"},
+    {"name": "REST API", "category": "Technical", "proficiency": "Advanced"},
+    {"name": "JavaScript", "category": "Technical", "proficiency": "Intermediate"},
+    {"name": "React", "category": "Technical", "proficiency": "Intermediate"},
+    {"name": "HTML", "category": "Technical", "proficiency": "Advanced"},
+    {"name": "CSS", "category": "Technical", "proficiency": "Intermediate"},
+    {"name": "Java", "category": "Technical", "proficiency": "Intermediate"},
+    {"name": "Machine Learning", "category": "Technical", "proficiency": "Intermediate"},
+    {"name": "scikit-learn", "category": "Technical", "proficiency": "Intermediate"},
+    {"name": "pandas", "category": "Technical", "proficiency": "Advanced"},
+    {"name": "NumPy", "category": "Technical", "proficiency": "Advanced"},
+    {"name": "TensorFlow", "category": "Technical", "proficiency": "Beginner"},
+    {"name": "Data Visualization", "category": "Technical", "proficiency": "Intermediate"},
+    {"name": "Git", "category": "Tool", "proficiency": "Advanced"},
+    {"name": "Docker", "category": "Tool", "proficiency": "Intermediate"},
+    {"name": "Linux", "category": "Tool", "proficiency": "Intermediate"},
+    {"name": "Communication", "category": "Soft", "proficiency": ""},
+    {"name": "Teamwork", "category": "Soft", "proficiency": ""},
+    {"name": "Problem Solving", "category": "Soft", "proficiency": ""}
+  ],
+  "certifications": [
+    {"name": "Google Cloud Digital Leader", "issuer": "Google Cloud", "issue_date": "2023-11", "credential_url": "", "details": "Foundational cloud concepts and Google Cloud products."},
+    {"name": "Machine Learning Specialization", "issuer": "Coursera / DeepLearning.AI", "issue_date": "2023-06", "credential_url": "", "details": "Supervised and unsupervised learning, model evaluation."},
+    {"name": "Python for Everybody", "issuer": "Coursera", "issue_date": "2022-09", "credential_url": "", "details": ""},
+    {"name": "Responsive Web Design", "issuer": "freeCodeCamp", "issue_date": "2022-03", "credential_url": "", "details": "HTML, CSS, Flexbox and Grid."}
+  ],
+  "projects": [
+    {"title": "Inventory Management API", "description": "Built a REST API for stock tracking with role-based access and pagination.\nDesigned a normalised SQLite/PostgreSQL schema with foreign keys and indexes.\nWrote unit tests with pytest and containerised the service with Docker.", "technologies": "Python, Flask, REST API, PostgreSQL, SQL, Docker, Git", "url": "github.com/aarav-demo/inventory-api", "start_date": "2024-01", "end_date": "2024-03"},
+    {"title": "Customer Churn Predictor", "description": "Cleaned and explored a 50k-row telecom dataset with pandas.\nTrained and compared logistic regression and random forest models, reaching 0.86 ROC-AUC on a held-out set.\nVisualised feature importance for non-technical stakeholders.", "technologies": "Python, pandas, NumPy, scikit-learn, Machine Learning, Data Visualization", "url": "github.com/aarav-demo/churn", "start_date": "2023-08", "end_date": "2023-10"},
+    {"title": "Campus Events Portal", "description": "Built a responsive single-page app where students browse and register for events.\nConnected the React front end to a Flask JSON API.", "technologies": "React, JavaScript, HTML, CSS, Flask, SQLite", "url": "", "start_date": "2023-01", "end_date": "2023-04"},
+    {"title": "Handwritten Digit Classifier", "description": "Trained a small convolutional network on MNIST as a learning project and documented the experiments.", "technologies": "Python, TensorFlow, NumPy, Machine Learning", "url": "", "start_date": "2022-11", "end_date": "2022-12"},
+    {"title": "Library Management Desktop App", "description": "Developed a console-based library system with file persistence for a course assignment.", "technologies": "Java", "url": "", "start_date": "2021-10", "end_date": "2021-12"}
+  ],
+  "experience": [
+    {"company": "BrightByte Solutions (demo)", "role": "Software Engineering Intern", "kind": "Internship", "location": "Pune, India", "start_date": "2023-05", "end_date": "2023-07", "description": "Developed and documented 6 REST endpoints in Flask for an internal reporting tool.\nOptimised two slow SQL queries, reducing report load time from ~8s to ~2s.\nParticipated in code reviews and daily stand-ups with a team of five.", "technologies": "Python, Flask, SQL, PostgreSQL, REST API, Git"},
+    {"company": "DataNest Labs (demo)", "role": "Data Analytics Intern", "kind": "Internship", "location": "Remote", "start_date": "2022-12", "end_date": "2023-02", "description": "Automated a weekly sales report with pandas, saving about 3 hours of manual work per week.\nBuilt dashboards and presented findings to the analytics lead.", "technologies": "Python, pandas, Data Visualization, SQL"},
+    {"company": "Campus Coding Club", "role": "Web Team Volunteer", "kind": "Volunteer", "location": "Pune, India", "start_date": "2021-08", "end_date": "2022-05", "description": "Maintained the club website and mentored first-year students in HTML and CSS.", "technologies": "HTML, CSS, JavaScript"}
+  ],
+  "achievements": [
+    {"title": "Finalist, Smart India Hackathon (demo)", "issuer": "Ministry of Education", "date": "2023-08", "description": "Reached the national finals with a team of six building a crop-advisory prototype."},
+    {"title": "Dean's List", "issuer": "Pune University", "date": "2022", "description": "Ranked in the top 5% of the batch for academic performance."},
+    {"title": "Winner, Intra-college Coding Contest", "issuer": "Campus Coding Club", "date": "2021", "description": ""}
+  ],
+  "publications": [
+    {"title": "Comparative Study of Classifiers for Telecom Churn Prediction", "venue": "National Student Conference on Data Science (demo)", "date": "2024-02", "url": "", "description": "Compared logistic regression, random forest and gradient boosting on a public telecom dataset."}
+  ],
+  "languages": [
+    {"name": "English", "proficiency": "Fluent"},
+    {"name": "Hindi", "proficiency": "Native"},
+    {"name": "Marathi", "proficiency": "Native"}
+  ]
+}

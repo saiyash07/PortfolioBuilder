@@ -1,0 +1,241 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Portfolio Resume Studio</title>
+<style>
+:root{--bg:#f5f6f8;--card:#fff;--ink:#1c2230;--mut:#667085;--line:#e3e6ec;--acc:#2f5bea;--acc2:#e8eefe;--ok:#12805c;--warn:#b54708;--bad:#b42318}
+@media (prefers-color-scheme:dark){:root{--bg:#12151c;--card:#1b2029;--ink:#e8ebf2;--mut:#98a2b3;--line:#2a313d;--acc:#7b9bff;--acc2:#222c4a;--ok:#4cc79a;--warn:#f0a35e;--bad:#f07f74}}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font:14px/1.45 system-ui,-apple-system,Segoe UI,sans-serif}
+header{background:var(--card);border-bottom:1px solid var(--line);padding:12px 20px;display:flex;gap:16px;align-items:center;flex-wrap:wrap;position:sticky;top:0;z-index:5}
+header h1{font-size:17px;margin:0 12px 0 0}nav{display:flex;gap:4px;flex-wrap:wrap}
+nav button{border:0;background:none;color:var(--mut);padding:8px 12px;border-radius:8px;font:inherit;cursor:pointer}
+nav button.on{background:var(--acc2);color:var(--acc);font-weight:600}
+.badges{margin-left:auto;display:flex;gap:6px;font-size:12px}.pill{padding:2px 8px;border-radius:99px;background:var(--acc2);color:var(--acc)}.pill.off{background:var(--line);color:var(--mut)}
+main{max-width:1280px;margin:0 auto;padding:16px 20px}.tab{display:none}.tab.on{display:block}
+.card{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:14px 16px;margin-bottom:14px}
+.card h2{font-size:15px;margin:0 0 10px;display:flex;align-items:center;gap:8px}.card h2 .sp{margin-left:auto}
+button.b{background:var(--acc);color:#fff;border:0;border-radius:8px;padding:7px 12px;font:inherit;cursor:pointer}
+button.b.sec{background:var(--acc2);color:var(--acc)}button.b.dng{background:none;color:var(--bad);padding:4px 8px}button.b:disabled{opacity:.5;cursor:wait}
+button.sm{padding:3px 8px;font-size:12px}
+input,textarea,select{width:100%;padding:7px 9px;border:1px solid var(--line);border-radius:8px;background:var(--bg);color:var(--ink);font:inherit}
+textarea{resize:vertical;min-height:70px}label{display:block;font-size:12px;color:var(--mut);margin:0 0 3px}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:10px}.grid .wide{grid-column:1/-1}
+table{width:100%;border-collapse:collapse}td,th{padding:6px 8px;border-bottom:1px solid var(--line);text-align:left;vertical-align:top;font-size:13px}th{color:var(--mut);font-weight:600;font-size:12px}
+td.act{white-space:nowrap;text-align:right}.mut{color:var(--mut)}.ok{color:var(--ok)}.warn{color:var(--warn)}.bad{color:var(--bad)}
+.chip{display:inline-block;padding:2px 8px;border-radius:99px;margin:2px 3px 2px 0;font-size:12px;background:var(--acc2);color:var(--acc)}
+.chip.miss{background:#fde7e4;color:var(--bad)}@media (prefers-color-scheme:dark){.chip.miss{background:#3a1f1c}}
+.chip.pref{background:var(--line);color:var(--ink)}
+.cols{display:grid;grid-template-columns:minmax(340px,5fr) 6fr;gap:16px;align-items:start}@media(max-width:960px){.cols{grid-template-columns:1fr}}
+.pick label{display:flex;gap:8px;align-items:flex-start;color:var(--ink);font-size:13px;margin:3px 0;cursor:pointer}.pick input{width:auto;margin-top:3px}
+.score{margin-left:auto;font-size:11px;color:var(--mut);white-space:nowrap}
+.meter{height:8px;background:var(--line);border-radius:99px;overflow:hidden}.meter i{display:block;height:100%;background:var(--ok)}
+#preview{background:#fff;color:#111;padding:28px 32px;border-radius:6px;border:1px solid var(--line);min-height:400px;box-shadow:0 2px 12px rgba(0,0,0,.08)}
+.toast{position:fixed;bottom:18px;left:50%;transform:translateX(-50%);background:var(--ink);color:var(--bg);padding:9px 16px;border-radius:10px;opacity:0;transition:.2s;pointer-events:none;z-index:9;max-width:90vw}
+.toast.on{opacity:1}.row{display:flex;gap:8px;flex-wrap:wrap;align-items:center}ul.tips{margin:6px 0 0 18px;padding:0}
+details summary{cursor:pointer;color:var(--mut);font-size:13px}.g0{opacity:.55}
+</style>
+</head>
+<body>
+<header>
+  <h1>Portfolio Resume Studio</h1>
+  <nav id="nav"></nav>
+  <div class="badges"><span class="pill" id="bGem"></span><span class="pill" id="bSheet"></span></div>
+</header>
+<main>
+  <section class="tab" id="t-portfolio"></section>
+  <section class="tab" id="t-import"></section>
+  <section class="tab" id="t-sync"></section>
+  <section class="tab" id="t-resume"></section>
+</main>
+<div class="toast" id="toast"></div>
+<script>
+const $ = (s, r=document) => r.querySelector(s);
+const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+let ST = {}, PF = {}, TOASTT;
+function toast(m, bad){const t=$('#toast');t.textContent=m;t.style.background=bad?'var(--bad)':'';t.classList.add('on');clearTimeout(TOASTT);TOASTT=setTimeout(()=>t.classList.remove('on'),bad?6000:2500)}
+async function api(path, method='GET', body){
+  const r = await fetch(path,{method,headers:body?{'Content-Type':'application/json'}:{},body:body?JSON.stringify(body):undefined});
+  const ct = r.headers.get('content-type')||'';
+  if(!r.ok){let m=r.statusText;try{m=(await r.json()).error||m}catch{}throw new Error(m)}
+  return ct.includes('json') ? r.json() : r.blob();
+}
+async function guard(btn, fn){ if(btn)btn.disabled=true; try{return await fn()}catch(e){toast(e.message,true)}finally{if(btn)btn.disabled=false} }
+
+const FIELDS = {
+  education:[['institution','Institution'],['degree','Degree'],['field','Field'],['start_year','Start'],['end_year','End'],['grade','Grade'],['details','Details','area']],
+  skills:[['name','Skill'],['category','Category','sel:Technical,Tool,Soft,Domain'],['proficiency','Proficiency']],
+  certifications:[['name','Name'],['issuer','Issuer'],['issue_date','Date'],['credential_url','Credential URL'],['details','Details','area']],
+  projects:[['title','Title'],['technologies','Technologies (comma separated)'],['url','URL'],['start_date','Start'],['end_date','End'],['description','Description (one bullet per line)','area']],
+  experience:[['company','Company'],['role','Role'],['kind','Type','sel:Internship,Full-time,Part-time,Volunteer,Freelance'],['location','Location'],['start_date','Start'],['end_date','End'],['technologies','Technologies (comma separated)'],['description','Description (one bullet per line)','area']],
+  achievements:[['title','Title'],['issuer','Issuer'],['date','Date'],['description','Description','area']],
+  publications:[['title','Title'],['venue','Venue'],['date','Date'],['url','URL'],['description','Description','area']],
+  languages:[['name','Language'],['proficiency','Proficiency']],
+};
+const TITLES = {education:'Education',skills:'Skills',certifications:'Certifications & Courses',projects:'Projects',experience:'Internships & Experience',achievements:'Achievements & Awards',publications:'Research & Publications',languages:'Languages'};
+const PROFILE = [['full_name','Full name'],['headline','Headline'],['email','Email'],['phone','Phone'],['location','Location'],['linkedin','LinkedIn'],['github','GitHub'],['website','Website'],['summary','Career objective / professional summary','area']];
+const label = (t,r)=> r.title||r.name||(r.company?`${r.role} @ ${r.company}`:'')||`${r.degree||''}${r.field?', '+r.field:''}`;
+
+function fieldHtml(f, val, prefix){
+  const [k,l,kind]=f, id=prefix+k;
+  if(kind==='area') return `<div class="wide"><label>${l}</label><textarea data-k="${k}">${esc(val)}</textarea></div>`;
+  if(kind&&kind.startsWith('sel:')){const o=kind.slice(4).split(',');return `<div><label>${l}</label><select data-k="${k}">${o.map(x=>`<option ${x===val?'selected':''}>${x}</option>`).join('')}</select></div>`}
+  return `<div><label>${l}</label><input data-k="${k}" value="${esc(val)}"></div>`;
+}
+const readForm = box => Object.fromEntries([...box.querySelectorAll('[data-k]')].map(e=>[e.dataset.k,e.value]));
+
+/* ------------------------------ Portfolio tab ------------------------------ */
+function renderPortfolio(){
+  const el=$('#t-portfolio');
+  let h=`<div class="card"><h2>Profile</h2><div class="grid" id="pf-form">${PROFILE.map(f=>fieldHtml(f,PF.profile?.[f[0]]||'')).join('')}</div>
+    <div class="row" style="margin-top:10px"><button class="b" id="saveProfile">Save profile</button></div></div>`;
+  for(const t of Object.keys(FIELDS)){
+    const rows=PF[t]||[];
+    h+=`<div class="card" data-t="${t}"><h2>${TITLES[t]} <span class="mut">(${rows.length})</span><span class="sp"><button class="b sec sm add">+ Add</button></span></h2>
+    <div class="formslot"></div>
+    <table><tbody>${rows.map(r=>`<tr><td><b>${esc(label(t,r))}</b>${sub(t,r)}</td><td class="act"><button class="b sec sm edit" data-id="${r.id}">Edit</button> <button class="b dng sm del" data-id="${r.id}">Delete</button></td></tr>`).join('')||'<tr><td class="mut">Nothing yet.</td></tr>'}</tbody></table></div>`;
+  }
+  el.innerHTML=h;
+  $('#saveProfile').onclick=e=>guard(e.target,async()=>{await api('/api/profile','PUT',readForm($('#pf-form')));await loadPF();toast('Profile saved')});
+  el.querySelectorAll('.card[data-t]').forEach(card=>{
+    const t=card.dataset.t;
+    card.querySelector('.add').onclick=()=>openForm(card,t,{});
+    card.querySelectorAll('.edit').forEach(b=>b.onclick=()=>openForm(card,t,PF[t].find(r=>r.id==b.dataset.id)));
+    card.querySelectorAll('.del').forEach(b=>b.onclick=()=>{if(confirm('Delete this entry?'))guard(b,async()=>{await api(`/api/${t}/${b.dataset.id}`,'DELETE');await loadPF();toast('Deleted')})});
+  });
+}
+function sub(t,r){
+  const bits={education:[r.institution,r.end_year],skills:[r.category,r.proficiency],certifications:[r.issuer,r.issue_date],projects:[r.technologies],experience:[r.kind,r.start_date&&`${r.start_date} – ${r.end_date||''}`],achievements:[r.issuer,r.date],publications:[r.venue,r.date],languages:[r.proficiency]}[t].filter(Boolean);
+  return bits.length?`<div class="mut">${esc(bits.join(' · '))}</div>`:'';
+}
+function openForm(card,t,row){
+  const slot=card.querySelector('.formslot');
+  slot.innerHTML=`<div class="card" style="background:var(--bg)"><div class="grid">${FIELDS[t].map(f=>fieldHtml(f,row[f[0]]||'')).join('')}</div>
+   <div class="row" style="margin-top:10px"><button class="b save">${row.id?'Update':'Add'}</button><button class="b sec cancel">Cancel</button></div></div>`;
+  slot.querySelector('.cancel').onclick=()=>slot.innerHTML='';
+  slot.querySelector('.save').onclick=e=>guard(e.target,async()=>{
+    await api(row.id?`/api/${t}/${row.id}`:`/api/${t}`,row.id?'PUT':'POST',readForm(slot));await loadPF();toast('Saved')});
+}
+
+/* ------------------------------ AI import tab ------------------------------ */
+function renderImport(){
+  $('#t-import').innerHTML=`<div class="card"><h2>Organise unstructured information with Gemini <span class="sp"><button class="b sec sm" id="loadUns">Load sample text</button></span></h2>
+   <p class="mut">Paste an old CV, LinkedIn text or free-form notes. Gemini extracts structured records <b>only from what the text says</b>. You review everything before it is saved; rows whose key text can’t be found in your input are flagged.</p>
+   <textarea id="rawText" style="min-height:160px" placeholder="Paste text here…"></textarea>
+   <div class="row" style="margin-top:10px"><button class="b" id="runOrg">Organise with Gemini</button></div></div><div id="orgOut"></div>`;
+  $('#loadUns').onclick=async()=>$('#rawText').value=(await api('/api/samples/unstructured_input')).text;
+  $('#runOrg').onclick=e=>guard(e.target,async()=>{const r=await api('/api/organize','POST',{text:$('#rawText').value});showOrg(r)});
+}
+function showOrg(r){
+  let h='<div class="card"><h2>Review extracted records</h2><p class="mut">Untick anything wrong. Items marked ⚠ were not clearly found in your text.</p>';
+  const p=r.profile||{}; const hasProfile=!!(PF.profile&&PF.profile.full_name);
+  if(p.full_name) h+=`<div class="pick"><label><input type="checkbox" data-prof ${hasProfile?'disabled':'checked'}><span><b>Profile:</b> ${esc(p.full_name)} ${esc(p.email||'')} ${hasProfile?'<span class="mut">(profile exists — kept as is)</span>':''}</span></label></div>`;
+  for(const t of Object.keys(FIELDS)) (r[t]||[]).forEach((x,i)=>{
+    h+=`<div class="pick"><label><input type="checkbox" checked data-t="${t}" data-i="${i}"><span><span class="mut">${TITLES[t]}:</span> <b>${esc(label(t,x))}</b> ${x.grounded?'':'<span class="warn">⚠ not found in text</span>'}<span class="mut"> ${esc(x.technologies||x.issuer||x.proficiency||'')}</span></span></label></div>`});
+  h+=`<div class="row" style="margin-top:10px"><button class="b" id="commit">Save selected to database</button></div></div>`;
+  $('#orgOut').innerHTML=h;
+  $('#commit').onclick=e=>guard(e.target,async()=>{
+    const out={profile:$('[data-prof]:checked')?r.profile:{}};
+    for(const t of Object.keys(FIELDS)) out[t]=[...document.querySelectorAll(`#orgOut input[data-t="${t}"]:checked`)].map(c=>{const {grounded,...x}=r[t][c.dataset.i];return x});
+    const res=await api('/api/organize/commit','POST',out);await loadPF();$('#orgOut').innerHTML='';toast('Saved: '+JSON.stringify(res.added))});
+}
+
+/* ------------------------------ Sheets tab ------------------------------ */
+function renderSync(){
+  $('#t-sync').innerHTML=`<div class="card"><h2>Google Sheets synchronisation</h2>
+  <p class="mut">Each category is its own tab in the sheet. <b>Push</b> overwrites the sheet with the database; <b>Pull</b> replaces the database with the sheet (so edits made in Sheets flow back). The Resume Builder can also read straight from the sheet.</p>
+  <div class="row"><button class="b" id="push">Push database → Sheet</button><button class="b sec" id="pull">Pull Sheet → database</button>
+  <button class="b sec" id="xlsx">Download .xlsx</button>${ST.sheet_url?`<a href="${esc(ST.sheet_url)}" target="_blank" rel="noopener">Open Google Sheet ↗</a>`:''}</div>
+  <p class="mut" id="syncMsg">${ST.sheets?'Sheet bridge configured.':'Sheet bridge not configured — set SHEETS_WEBAPP_URL in .env (see README). The .xlsx export works without it.'}</p></div>`;
+  $('#push').onclick=e=>guard(e.target,async()=>{const r=await api('/api/sheets/push','POST',{});$('#syncMsg').textContent='Pushed rows: '+JSON.stringify(r.rows);toast('Sheet updated')});
+  $('#pull').onclick=e=>{if(confirm('Replace the database with the sheet contents?'))guard(e.target,async()=>{await api('/api/sheets/pull','POST',{});await loadPF();toast('Database updated from sheet')})};
+  $('#xlsx').onclick=e=>guard(e.target,async()=>download(await api('/api/sheets/xlsx'),'portfolio_sheet.xlsx'));
+}
+function download(blob,name){const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download=name;a.click();setTimeout(()=>URL.revokeObjectURL(a.href),2000)}
+
+/* ------------------------------ Resume builder ------------------------------ */
+let R = {analysis:null, match:null, advice:null, sel:null, pf:null, timer:null, seq:0};
+function renderResume(){
+  $('#t-resume').innerHTML=`<div class="cols"><div>
+   <div class="card"><h2>1 · Target job description <span class="sp"><select id="jdSample" style="width:auto"><option value="">Load sample…</option><option value="jd_backend_python">Backend (Python)</option><option value="jd_data_ml">Data / ML</option></select></span></h2>
+     <textarea id="jd" style="min-height:150px" placeholder="Paste a job description…"></textarea>
+     <div class="row" style="margin-top:8px"><select id="src" style="width:auto"><option value="db">Data source: database</option><option value="sheet">Data source: Google Sheet</option></select><button class="b" id="analyze">Analyse &amp; match</button></div></div>
+   <div id="analysisOut"></div></div>
+   <div><div class="card" id="actions" style="display:none"><div class="row"><input id="label" placeholder="Label (used in file name)" style="width:200px"><button class="b" id="dlPdf">Download PDF</button><button class="b sec" id="dlDocx">Download DOCX</button></div>
+     <div class="row" style="margin-top:8px"><input id="cfgName" placeholder="Save this setup as…" style="width:200px"><button class="b sec" id="saveCfg">Save</button><select id="cfgList" style="width:auto"></select><button class="b sec" id="loadCfg">Load</button></div></div>
+     <div id="preview"><span class="mut">Analyse a job description to generate a resume preview.</span></div></div></div>`;
+  $('#jdSample').onchange=async e=>{if(e.target.value){$('#jd').value=(await api('/api/samples/'+e.target.value)).text;e.target.value=''}};
+  $('#analyze').onclick=e=>guard(e.target,runAnalyze);
+  $('#dlPdf').onclick=e=>guard(e.target,async()=>download(await api('/api/resume/pdf','POST',payload()),`${$('#label').value||'resume'}.pdf`));
+  $('#dlDocx').onclick=e=>guard(e.target,async()=>download(await api('/api/resume/docx','POST',payload()),`${$('#label').value||'resume'}.docx`));
+  $('#saveCfg').onclick=e=>guard(e.target,async()=>{await api('/api/configs','POST',{name:$('#cfgName').value,jd:$('#jd').value,selection:R.sel,analysis:R.analysis});await loadCfgs();toast('Saved')});
+  $('#loadCfg').onclick=e=>guard(e.target,async()=>{const id=$('#cfgList').value;if(!id)return;const c=await api('/api/configs/'+id);
+    $('#jd').value=c.job_description||'';R.sel=c.selection.selection;R.analysis=c.selection.analysis;R.pf=await api('/api/portfolio');
+    R.match=R.analysis?null:null;drawAnalysis();refreshPreview();toast('Loaded')});
+  loadCfgs(); if(R.analysis) {$('#jd').value=R._jd||'';drawAnalysis();refreshPreview()}
+}
+async function loadCfgs(){const l=await api('/api/configs');const s=$('#cfgList');if(s)s.innerHTML='<option value="">Saved setups…</option>'+l.map(c=>`<option value="${c.id}">${esc(c.name)}</option>`).join('')}
+const payload=()=>({selection:R.sel,analysis:R.analysis,source:$('#src').value,label:$('#label').value||(R.analysis?.role_title||'').slice(0,30)});
+async function runAnalyze(){
+  const r=await api('/api/analyze?source='+$('#src').value,'POST',{jd:$('#jd').value});
+  Object.assign(R,{analysis:r.analysis,match:r.match,advice:r.advice,sel:r.selection,pf:r.portfolio,_jd:$('#jd').value});
+  drawAnalysis();refreshPreview();
+}
+function drawAnalysis(){
+  const {analysis:a,match:m,advice:v,pf}=R; $('#actions').style.display='block';
+  const SEC=['experience','projects','skills','certifications','education','achievements','publications','languages'];
+  let h='';
+  if(m){
+    h+=`<div class="card"><h2>2 · Match with JD <span class="sp ${m.match_pct>=70?'ok':'warn'}">${m.match_pct}%</span></h2><div class="meter"><i style="width:${m.match_pct}%"></i></div>
+    <p class="mut" style="margin:8px 0 2px">Analysis by: ${esc(a.source||'')} · Role: <b>${esc(a.role_title||'—')}</b></p>
+    <div><b class="ok">In your portfolio</b><br>${m.matched.map(x=>`<span class="chip ${x.level!=='required'?'pref':''}" title="${esc(x.level)}${x.evidence.length?' · evidence: '+esc(x.evidence.map(e=>e.label).join(', ')):''}">${esc(x.term)}</span>`).join('')||'<span class="mut">none</span>'}</div>
+    <div style="margin-top:6px"><b class="bad">Not in your portfolio</b> <span class="mut">(not added to the resume)</span><br>${m.missing.map(x=>`<span class="chip miss" title="${esc(x.level)}">${esc(x.term)}</span>`).join('')||'<span class="mut">none 🎉</span>'}</div></div>`;
+  }
+  h+=`<div class="card"><h2>3 · Professional summary</h2><textarea id="sum" style="min-height:90px">${esc(R.sel.summary||'')}</textarea>
+    <div class="row" style="margin-top:6px"><button class="b sec sm" id="sumBase">Use my base summary</button></div></div>`;
+  h+=`<div class="card"><h2>4 · Choose what to include</h2>`;
+  for(const t of SEC){
+    const rows=pf[t]||[]; if(!rows.length)continue;
+    const sc=(m&&m.scores[t])||{};
+    const sorted=[...rows].sort((x,y)=>(sc[y.id]||0)-(sc[x.id]||0));
+    h+=`<details ${['experience','projects','skills'].includes(t)?'open':''}><summary><b>${TITLES[t]}</b> (${(R.sel[t]||[]).length}/${rows.length})</summary><div class="pick">${sorted.map(r=>`<label class="${m&&!sc[r.id]&&['projects','experience','skills','certifications'].includes(t)?'g0':''}"><input type="checkbox" data-sec="${t}" value="${r.id}" ${(R.sel[t]||[]).includes(r.id)?'checked':''}><span>${esc(label(t,r))}</span>${m&&sc[r.id]?`<span class="score">relevance ${sc[r.id]}</span>`:''}</label>`).join('')}</div></details>`;
+  }
+  h+='</div>';
+  if(v){
+    h+=`<div class="card"><h2>5 · Suggestions <span class="mut">(${esc(v.source)})</span></h2>`;
+    if(v.verification_notes?.length) h+=`<p class="warn">${v.verification_notes.map(esc).join('<br>')}</p>`;
+    h+=`<ul class="tips">${(v.suggestions||[]).map(s=>`<li>${esc(s)}</li>`).join('')}</ul><p class="mut">Verified: every item on the resume comes from your portfolio; AI text mentioning unknown skills is rejected.</p></div>`;
+  }
+  $('#analysisOut').innerHTML=h;
+  document.querySelectorAll('#analysisOut input[data-sec]').forEach(c=>c.onchange=()=>{R.sel[c.dataset.sec]=[...document.querySelectorAll(`#analysisOut input[data-sec="${c.dataset.sec}"]:checked`)].map(x=>+x.value);schedule()});
+  $('#sum').oninput=e=>{R.sel.summary=e.target.value;schedule()};
+  $('#sumBase').onclick=()=>{R.sel.summary=pf.profile.summary||'';$('#sum').value=R.sel.summary;schedule()};
+}
+function schedule(){clearTimeout(R.timer);R.timer=setTimeout(refreshPreview,250)}
+async function refreshPreview(){
+  const my=++R.seq;
+  try{const r=await api('/api/resume/preview','POST',payload());if(my!==R.seq)return;
+    $('#preview').innerHTML=`<style>${r.css}</style>`+r.html}catch(e){toast(e.message,true)}
+}
+
+/* ------------------------------ shell ------------------------------ */
+const TABS=[['portfolio','Portfolio',renderPortfolio],['import','AI Import',renderImport],['sync','Google Sheets',renderSync],['resume','Resume Builder',renderResume]];
+function show(id){
+  TABS.forEach(([k])=>{$('#t-'+k).classList.toggle('on',k===id)});
+  document.querySelectorAll('#nav button').forEach(b=>b.classList.toggle('on',b.dataset.k===id));
+  TABS.find(t=>t[0]===id)[2]();location.hash=id;
+}
+async function loadPF(){PF=await api('/api/portfolio');const cur=(location.hash||'#portfolio').slice(1);if(cur==='portfolio')renderPortfolio()}
+(async()=>{
+  ST=await api('/api/status');
+  $('#bGem').textContent=ST.gemini?`Gemini: ${ST.model}`:'Gemini: off (keyword fallback)';$('#bGem').classList.toggle('off',!ST.gemini);
+  $('#bSheet').textContent=ST.sheets?'Sheets: connected':'Sheets: not configured';$('#bSheet').classList.toggle('off',!ST.sheets);
+  $('#nav').innerHTML=TABS.map(([k,n])=>`<button data-k="${k}">${n}</button>`).join('');
+  document.querySelectorAll('#nav button').forEach(b=>b.onclick=()=>show(b.dataset.k));
+  PF=await api('/api/portfolio');
+  show(TABS.some(t=>t[0]===location.hash.slice(1))?location.hash.slice(1):'portfolio');
+})().catch(e=>toast(e.message,true));
+</script>
+</body>
+</html>

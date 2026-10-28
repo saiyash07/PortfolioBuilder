@@ -1,0 +1,4 @@
+Hi, I'm Riya Kapoor, a final-year IT student in Mumbai (riya.kapoor@example.com, 99887 76655). I'm good at Java, Spring Boot and MySQL
+and I know some Docker. I did a 2-month internship at ByteWorks (demo) as a backend intern in summer 2023 where I built login APIs.
+For my final-year project, "SmartAttendance", I made a face-recognition attendance system using Python and OpenCV.
+I completed the AWS Cloud Practitioner certification in 2023. I won first prize in my college hackathon in 2022. I speak English and Hindi.
