@@ -49,7 +49,7 @@ Portfolio tab (CRUD) → AI Import (paste `samples/unstructured_input.txt`) → 
 `sample_outputs/Aarav_Mehta_Backend_Python_Resume.pdf|docx` and `…Data_ML_Resume.pdf|docx` (keyword-fallback mode), plus `portfolio_sheet.xlsx`. Sample JDs: `samples/jd_*.txt`. Regenerating with a Gemini key will give Gemini-written summaries.
 
 ## Screenshots (`screenshots/`, sample data)
-`01_portfolio_database` · `02_edit_project_entry` · `03_gemini_organise_unstructured` · `04_sheets_sync_tab` · `05_backend_*` and `06_datasci_*` (JD match, selections, preview, downloaded PDF). Gemini-written resumes: `sample_outputs/*_gemini.pdf`.
+`01_portfolio_database` · `02_edit_project_entry` · `03_gemini_organise_unstructured` · `04_sheets_sync_tab` · `05_backend_*` and `06_datasci_*` (JD match, selections, preview, downloaded PDF). Google Sheet tabs after a push: `07`–`15_google_sheet_<tab>_tab.png` (profile, education, skills, certifications, projects, experience, achievements, publications, languages). Gemini-written resumes: `sample_outputs/*_gemini.pdf`.
 
 ## Layout
 `app.py` API + routes · `db.py` storage · `gemini.py` AI + matching + verification · `sheets.py` sync · `resume.py` HTML/PDF/DOCX · `static/index.html` UI · `tests/`
